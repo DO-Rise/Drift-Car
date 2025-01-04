@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
@@ -7,18 +5,18 @@ using UnityEngine.SceneManagement;
 public class Matchmaking : MonoBehaviourPunCallbacks
 {
     private CarPartsManager _carPartsManager;
-    private int _numberScene = 0;
+    private string _nameScene;
 
-    public void StartMultiplayer(int numberScene)
+    public void StartMultiplayer()
     {
         // —охранение кастомизации перед переходом в гонку
-        _carPartsManager = FindObjectOfType<CarPartsManager>();
+        //_carPartsManager = FindObjectOfType<CarPartsManager>();
         //_carPartsManager.SaveCustomizationState();
 
         MenuManager.Instance.OpenMenu("LoadingMultiplayer");
 
         PhotonNetwork.JoinRandomRoom();
-        _numberScene = numberScene;
+        _nameScene = "Multiplayer";
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -28,28 +26,31 @@ public class Matchmaking : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)//2
         {
-            PhotonNetwork.LoadLevel(_numberScene);
+            PhotonNetwork.LoadLevel(_nameScene);
 
-            if (SceneManager.GetActiveScene().buildIndex == 2)
+            /*if (SceneManager.GetActiveScene().name == _nameScene)
+            {
                 RoomManager.Instance.SpawnPlayer();
+            }*/
         }
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-        {
-            
-
-            PhotonNetwork.LoadLevel(_numberScene);
-        }
+            PhotonNetwork.LoadLevel(_nameScene);
     }
 
     public void LeaveRoom()
     {
+        //RoomManager.Instance.LeaveRoom();
         PhotonNetwork.LeaveRoom();
-        MenuManager.Instance.OpenMenu("Multiplayer");
+    }
+
+    public override void OnLeftRoom()
+    {
+        MenuManager.Instance.OpenMenu("Garage");
     }
 }

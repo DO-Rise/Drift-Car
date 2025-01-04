@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -14,6 +15,11 @@ public class SpawnManager : MonoBehaviour
     {
         Instance = this;
         _spawnPoint = GetComponentsInChildren<SpawnPoint>();
+    }
+
+    private void Start()
+    {
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
     }
 
     public Transform GetSpawnPoint()

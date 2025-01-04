@@ -84,6 +84,6 @@ public class MenuManager : MonoBehaviour
 
     public void CareerButton()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Career");
     }
 }

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 public class Launcher : MonoBehaviourPunCallbacks
@@ -12,14 +11,17 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected to Master");
-        PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true;
+        if (!PhotonNetwork.InLobby)
+        {
+            Debug.Log("Connected to Master");
+            PhotonNetwork.JoinLobby();
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined Lobby");
-        MenuManager.Instance.OpenMenu("Garage");
+        SceneManager.LoadScene("Garage");
     }
 }

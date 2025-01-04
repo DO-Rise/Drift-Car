@@ -41,7 +41,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject _smokePrefab;
     private WheelParticles _wheelParticles;
 
-    private ScoreDrift _scoreDrift;
+    private UIGameMultiplayer _UIMultiplayer;
+    private UIGameCareer _UICareer;
 
     private PhotonView PV;
     private Rigidbody _rb;
@@ -50,7 +51,7 @@ public class CarController : MonoBehaviour
     private float _moveZ;
     private float _brakeInput;
 
-    private float _motorPower = 600f;
+    private float _motorPower = 700f;
     private float _brakePower = 50000;
     private float _slipAngle;
 
@@ -74,14 +75,11 @@ public class CarController : MonoBehaviour
                 Destroy(GetComponentInChildren<Camera>().gameObject);
                 Destroy(_rb);
             }
+            _UIMultiplayer = FindObjectOfType<UIGameMultiplayer>();
         }
-/*        else if (SceneManager.GetActiveScene().name == "Career")
-        {
-            GameObject point = GameObject.Find("Point");
-            gameObject.transform.position = point.transform.position;
-        }*/
 
-        _scoreDrift = FindObjectOfType<ScoreDrift>();
+        if (SceneManager.GetActiveScene().name == "Career")
+            _UICareer = FindObjectOfType<UIGameCareer>();
     }
 
     private void InstantiateSmoke()
@@ -190,8 +188,10 @@ public class CarController : MonoBehaviour
         {
             CheckParticles();
 
-            if (SceneManager.GetActiveScene().name != "Garage")
-                _scoreDrift.Score();
+            if (SceneManager.GetActiveScene().name == "Multiplayer")
+                _UIMultiplayer.Score();
+            else if (SceneManager.GetActiveScene().name == "Career")
+                _UICareer.Score();
         }
     }
 
@@ -229,5 +229,17 @@ public class CarController : MonoBehaviour
             _wheelParticles.FLWheel.Play();
         else
             _wheelParticles.FLWheel.Stop();
+    }
+
+    [PunRPC]
+    private void SyncWheelData(float frontLeftSteer, float frontRightSteer, float rearLeftRot, float rearRightRot)
+    {
+        // Обновляем поворот колес
+        _wheelColliders.FLWheel.steerAngle = frontLeftSteer;
+        _wheelColliders.FRWheel.steerAngle = frontRightSteer;
+
+        // Обновляем вращение колес
+        _wheelMeshes.RLWheel.transform.localRotation = Quaternion.Euler(0, 0, rearLeftRot);
+        _wheelMeshes.RRWheel.transform.localRotation = Quaternion.Euler(0, 0, rearRightRot);
     }
 }

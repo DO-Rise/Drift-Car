@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5610110218870812564}
   - component: {fileID: 8148058729281038333}
   - component: {fileID: 7130090704122610098}
-  - component: {fileID: 301078805141180488}
+  - component: {fileID: 2364238246930347365}
   m_Layer: 5
   m_Name: CarButton
   m_TagString: Untagged
@@ -120,8 +120,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8148058729281038333}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &301078805141180488
+      m_Calls:
+      - m_Target: {fileID: 2364238246930347365}
+        m_TargetAssemblyTypeName: CarButton, Assembly-CSharp
+        m_MethodName: ClickButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2364238246930347365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,11 +145,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8716915fb4c7d8b44ad3740b13ce48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Muscle
-  _imageButtons:
-  - {fileID: 21300000, guid: cc1cf7e4b8f2eb4499dbc277414bd29a, type: 3}
-  - {fileID: 21300000, guid: 54a542e35c9922a4ea8a57ad1223e123, type: 3}
-  - {fileID: 21300000, guid: f40633c73459fe34498de907ce4676d2, type: 3}
-  - {fileID: 21300000, guid: e114edfb3fe50264ea0c8a84258baa0c, type: 3}
-  - {fileID: 21300000, guid: c86d83b2030e5fd4d85d2481fb2c8b94, type: 3}
-  - {fileID: 21300000, guid: deb66f56e71f3d3409a0dc21c2f4d382, type: 3}
